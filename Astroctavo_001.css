@@ -1,0 +1,86 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+
+    min-height: 100vh;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#fullArea{
+
+    display: flex;
+    background-color: rgba(127, 255, 212, 0);
+}
+
+#myCanvas{
+
+    height: 1680px;
+    width: 1680px;
+    background-color: white;
+}
+
+#tablesArea{
+
+    height: 100vh;
+    width: 1440px;
+    background-color: rgba(0, 89, 12, 0);
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    display: none;
+}
+
+#sideArea{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    flex: 1;
+}
+
+input[type="file"]{
+    display: none;
+}
+
+.customFileUpload{
+    border: 1px solid #ccc;
+    display: block;
+    padding: 35px 0px;
+    font-size: 20px;
+    text-align:center;
+    cursor: pointer;
+    height: 100px;
+    width: 150px;
+    background-color: aqua;
+}
+
+.customFileUpload:hover{
+
+    background-color: blueviolet;
+    border: 1px solid #421111;
+}
+
+#downloadButton{
+
+    border: 1px solid #ccc;
+    height: 100px;
+    width: 150px;
+    background-color: aqua;
+    cursor: pointer;
+    font-size: 20px;
+    display: none;
+}
+
+#downloadButton:hover{
+
+    background-color: blueviolet;
+    border: 1px solid #421111;    
+}
