@@ -18,6 +18,10 @@ let usedColArray = [[17, 21, 33, 42], [51, 45, 61, 70], [79, 73, 89, 98], [107, 
 
 let exclusionList = [];
 
+const astrologicalClock = true;
+
+const astrologicalClockOffset = 180;
+
 const dividerArcDegDataColumn = 12;
 
 const astrumSunOffsetColumn = 22;
@@ -421,9 +425,20 @@ function pointersDraw(astrumIndex, fullAstrumArray, offsetDataColumn, divideArcD
 
     let rotationAngle = null;
 
+    let astrologicalSwitch = null;
+
+    if(astrologicalClock === true){
+
+        astrologicalSwitch = 1;
+    }
+    else{
+
+        astrologicalSwitch = 0;
+    }
+
     ctx.translate(originX, originY);
 
-    ctx.rotate(sunDegreesOffset * Math.PI / 180);
+    ctx.rotate((astrologicalSwitch * astrologicalClockOffset + sunDegreesOffset) * Math.PI / 180);
 
     ctx.translate(-originX, -originY);
 
