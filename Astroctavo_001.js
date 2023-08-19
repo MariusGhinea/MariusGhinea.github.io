@@ -3,7 +3,7 @@ const ctx = myCanvas.getContext("2d");
 
 ctx.scale(1,1);
 
-let fontDef = "16px Garamond";
+let fontDef = "64px Garamond";
 
 ctx.font = `${fontDef}`;
 
@@ -34,7 +34,7 @@ const pointerLinesVal = [[0, 42], [71, 116], [236, 252], [330, 346], [395, 408],
 
 const pointerIniLength = 602;
 
-const pointerCurrentLength = 602;
+const pointerCurrentLength = 2408;
 
 const lengthRatio = pointerCurrentLength / pointerIniLength;
 
