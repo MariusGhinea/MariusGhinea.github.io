@@ -669,6 +669,7 @@ astrumCsv.addEventListener("change", e => {
             
                 // This is the name of the downloaded file
                 createElPointers.download = `${currentFileName}_pointers`;
+                createElPointers.target = "_blank";
             
                 // Click the download button, causes a download, and then removes it
                 createElPointers.click();
