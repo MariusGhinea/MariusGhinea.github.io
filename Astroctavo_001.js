@@ -28,7 +28,7 @@ const astrumSunOffsetColumn = 22;
 
 const sunTimeOffsetColumn = 9;
 
-const pointerLineWidth = 2; //px
+const pointerLineWidth = 8; //px
 
 const pointerLinesVal = [[0, 42], [71, 116], [236, 252], [330, 346], [395, 408], [456, 509], [536, 548], [575, 602]];
 
