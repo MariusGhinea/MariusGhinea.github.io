@@ -595,7 +595,7 @@ astrumCsv.addEventListener("change", e => {
 
         ctx.fillStyle = "white";
 
-        ctx.fillRect(0, 0, 1680, 1680);
+        ctx.fillRect(0, 0, 6720, 6720);
 
         for(let i = 0; i < astrumAtrix.length; i++){
 
@@ -644,7 +644,7 @@ astrumCsv.addEventListener("change", e => {
                 createEl.remove();
 
                 ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, 1680, 1680);
+                ctx.fillRect(0, 0, 6720, 6720);
 
                 ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
