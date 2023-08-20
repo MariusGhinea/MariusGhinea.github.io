@@ -643,6 +643,9 @@ astrumCsv.addEventListener("change", e => {
                 createEl.click();
                 createEl.remove();
 
+                canvasUrl = null;
+                createEl.href = null;
+
                 ctx.fillStyle = "white";
                 ctx.fillRect(0, 0, 6720, 6720);
 
