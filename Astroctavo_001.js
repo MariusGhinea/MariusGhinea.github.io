@@ -3,7 +3,7 @@ const ctx = myCanvas.getContext("2d");
 
 ctx.scale(1,1);
 
-let fontDef = "64px Garamond";
+let fontDef = "80px Garamond";
 
 ctx.font = `${fontDef}`;
 
@@ -678,7 +678,7 @@ astrumCsv.addEventListener("change", e => {
                 createElPointers.click();
                 createElPointers.remove();
                 
-                location.reload();
+                //location.reload();
             }
         });
 
