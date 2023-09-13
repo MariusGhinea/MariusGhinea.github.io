@@ -678,7 +678,7 @@ astrumCsv.addEventListener("change", e => {
                 createElPointers.click();
                 createElPointers.remove();
                 
-                //location.reload();
+                location.reload();
             }
         });
 
