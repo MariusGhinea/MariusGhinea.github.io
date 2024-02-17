@@ -10,7 +10,9 @@ ctx.font = `${fontDef}`;
 
 let astrumAtrix = [];
 
-const astrumCsv = document.getElementById("csvFile");
+const astrumCsvGMT = document.getElementById("csvFileGMT");
+
+const astrumCsvEST = document.getElementById("csvFileEST");
 
 let minorArcanaArray = [];
 
@@ -489,14 +491,14 @@ function pointersDraw(astrumIndex, fullAstrumArray, offsetDataColumn, divideArcD
 
 
 
-astrumCsv.addEventListener("change", e => {
+astrumCsvGMT.addEventListener("change", e => {
 
     //location.reload();
     e.preventDefault();
 
     //const tablesArea = document.getElementById("tablesArea");
     let currentFileName = null;
-    const currentAstrumCsv = astrumCsv.files[0];
+    const currentAstrumCsv = astrumCsvGMT.files[0];
     const reader = new FileReader();
 
     reader.readAsText(currentAstrumCsv);
@@ -572,6 +574,204 @@ astrumCsv.addEventListener("change", e => {
             rowHeaders: [0],
 
             rowHeadersContent: ["Sign", "Card", "Time", "GMT"],
+
+            columnHeaders: [0],
+
+            columnHeadersContent: ["I", "II", "III", "IV", "V", "VI", "VII"],
+
+            rowTablesNumber: 3, //number of tables on a row
+
+            columnsWidthArray: columnsWidthArray
+        }
+
+
+        let tableAreaCenter = myCanvas.offsetWidth / 2;
+
+        let tableAreaOriginX = tableAreaCenter - (tableDef.tableWidth * tableDef.rowTablesNumber + (tableDef.rowTablesNumber - 1) * tableDef.lateralMargins) / 2;
+
+        let currentTableAreaOriginX = tableAreaOriginX;
+
+        let tableAreaOriginY = tableDef.verticalMargins;
+
+        let tablesRowCounter = 0;
+
+        ctx.fillStyle = "white";
+
+        ctx.fillRect(0, 0, 6720, 6720);
+
+        for(let i = 0; i < astrumAtrix.length; i++){
+
+            tableDraw(i, astrumAtrix, usedColArray, cellDef, tableDef, currentTableAreaOriginX, tableAreaOriginY + tablesRowCounter * (tableDef.tableHeigth + tableDef.verticalMargins));
+
+            if((i+1)%tableDef.rowTablesNumber === 0){
+
+                currentTableAreaOriginX = tableAreaOriginX;
+
+                tablesRowCounter++;
+            
+            }
+            else{
+
+                currentTableAreaOriginX = currentTableAreaOriginX + tableDef.tableWidth + tableDef.lateralMargins;
+            }
+
+        }
+
+        const csvLoadButtons = document.getElementsByClassName("customFileUpload");
+
+        for(let i = 0; i < csvLoadButtons.length; i++){
+
+            csvLoadButtons[i].style.display = "none";
+        }
+
+
+        document.getElementById("downloadButton").style.display = "block";
+
+        document.getElementById('downloadButton').addEventListener('click', function(e) {
+            // Convert the canvas to a data URL
+            //let canvasUrl = myCanvas.toDataURL("image/jpeg", 1);
+
+            if(saveButtonState === 0){
+
+                let canvasUrl = myCanvas.toDataURL();
+                // Create an anchor, and set the href value to data URL
+                const createEl = document.createElement('a');
+                createEl.href = canvasUrl;
+            
+                // This is the name of the downloaded file
+                createEl.download = `${currentFileName}_tables`;
+            
+                // Click the download button, causes a download, and then removes it
+                createEl.click();
+                createEl.remove();
+
+                canvasUrl = null;
+                createEl.href = null;
+
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, 6720, 6720);
+
+                ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+                for(let i = 0; i < astrumAtrix.length; i++){
+                    
+                    pointersDraw(i, astrumAtrix, astrumSunOffsetColumn, dividerArcDegDataColumn, sunTimeOffsetColumn, currentColoursArray, pointerLineWidth, pointerLinesVal, pointerOriginX, pointerOriginY, lengthRatio);
+                }
+
+                saveButtonState = 1;
+
+                document.getElementById('downloadButton').innerText = "descarca pointeri";
+
+
+
+            }
+            else{
+
+                let canvasUrlPointers = myCanvas.toDataURL();
+                // Create an anchor, and set the href value to data URL
+                const createElPointers = document.createElement('a');
+                createElPointers.href = canvasUrlPointers;
+            
+                // This is the name of the downloaded file
+                createElPointers.download = `${currentFileName}_pointers`;
+                createElPointers.target = "_blank";
+            
+                // Click the download button, causes a download, and then removes it
+                createElPointers.click();
+                createElPointers.remove();
+                
+                location.reload();
+            }
+        });
+
+    }
+
+})
+
+
+astrumCsvEST.addEventListener("change", e => {
+
+    //location.reload();
+    e.preventDefault();
+
+    //const tablesArea = document.getElementById("tablesArea");
+    let currentFileName = null;
+    const currentAstrumCsv = astrumCsvEST.files[0];
+    const reader = new FileReader();
+
+    reader.readAsText(currentAstrumCsv);
+
+    currentFileName = currentAstrumCsv.name;
+
+    currentFileName = currentFileName.slice(0, currentFileName.length - 4);
+
+    console.log(currentFileName);
+
+    reader.onerror = () => {
+
+        console.log('an error has occured');
+    }
+
+    reader.onload = () => {
+
+        let myText = reader.result;
+        let astrumTextRaw = "";
+
+        astrumTextRaw = astrumTextRaw.concat("", myText);
+
+        let astrumAtrixRows = astrumTextRaw.split("\n");
+        astrumAtrixRows.pop();
+
+        for(let i = 0; i < astrumAtrixRows.length; i++){
+
+            astrumAtrix.push(astrumAtrixRows[i].split(","));
+        }
+
+        astrumAtrix.shift();
+
+        let tableRowsNumber = 9;
+
+        let columnsWidthArray = getMaxCellWidthArray(astrumAtrix, usedColArray, 4);
+        
+        let allTablesWidth = getTableWidth(getMaxCellWidthArray(astrumAtrix, usedColArray, 4), cellDef);
+
+        let allTablesHeight = getTableHeight(tableRowsNumber, cellDef);
+
+        let currentColoursArray = coloursArrayCreate(astrumAtrix);
+
+        let astrumSunOffset = [];
+
+        for(let i = 0; i < astrumAtrix.length; i++){
+
+            if(i === 0){
+
+                astrumSunOffset.push("0");
+            }
+            else{
+            
+                astrumSunOffset.push(astrumAtrix[i][22]);
+            }
+        }
+
+
+
+        const tableDef = {
+
+            tableWidth: allTablesWidth,
+
+            tableHeigth: allTablesHeight,
+
+            lateralMargins: 20, /*px*/
+        
+            verticalMargins: 30, /*px*/
+        
+            coloursArray: currentColoursArray, /* R,G,B table for the specific colours used for each astrum table and graphical pointers */
+
+            alphaChannels: [0.15, 0.25], //even/odd row alpha channel values for cell background colour
+
+            rowHeaders: [0],
+
+            rowHeadersContent: ["Sign", "Card", "Time", "EST"],
 
             columnHeaders: [0],
 
